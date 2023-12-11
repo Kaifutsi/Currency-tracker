@@ -1,0 +1,31 @@
+<h1>Weekly Currency Price Changes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Currency</th>
+      <th>4 weeks ago</th>
+      <th>3 weeks ago</th>
+      <th>2 weeks ago</th>
+      <th>Last week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @weekly_changes.each do |currency, weeks| %>
+      <tr>
+        <td><%= currency %></td>
+        <% weeks.each do |week_data| %>
+          <td>
+            <% if week_data[:monday_rate] && week_data[:sunday_rate] %>
+              From <%= number_to_currency(week_data[:monday_rate], unit: 'RUB', format: "%n %u") %>
+              to <%= number_to_currency(week_data[:sunday_rate], unit: 'RUB', format: "%n %u") %><br>
+              Change: <%= number_to_percentage(week_data[:percentage_change], precision: 2) %>
+            <% else %>
+              Data not available
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
